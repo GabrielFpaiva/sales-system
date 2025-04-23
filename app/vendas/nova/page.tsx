@@ -420,7 +420,7 @@ export default function NovaVendaPage() {
                           setClienteInfo({ ...clienteInfo, torceFlamengo: checked === true })
                         }
                       />
-                      <Label htmlFor="torce-flamengo">Torce para o Flamengo (25% de desconto)</Label>
+                      <Label htmlFor="torce-flamengo">Torce para o Flamengo </Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox
@@ -430,7 +430,7 @@ export default function NovaVendaPage() {
                           setClienteInfo({ ...clienteInfo, assisteOnePiece: checked === true })
                         }
                       />
-                      <Label htmlFor="assiste-onepiece">Assiste One Piece (25% de desconto)</Label>
+                      <Label htmlFor="assiste-onepiece">Assiste One Piece </Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Checkbox
@@ -438,7 +438,7 @@ export default function NovaVendaPage() {
                         checked={clienteInfo.deSousa}
                         onCheckedChange={(checked) => setClienteInfo({ ...clienteInfo, deSousa: checked === true })}
                       />
-                      <Label htmlFor="de-sousa">É de Sousa (25% de desconto)</Label>
+                      <Label htmlFor="de-sousa">É de Sousa </Label>
                     </div>
                   </div>
                 </>

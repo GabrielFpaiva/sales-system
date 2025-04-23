@@ -1,6 +1,6 @@
 import { Pool } from "pg"
 
-// Configuração da conexão com o PostgreSQL
+// conexao postgreSQL
 const pool = new Pool({
   user: process.env.POSTGRES_USER,
   host: process.env.POSTGRES_HOST,
@@ -9,7 +9,7 @@ const pool = new Pool({
   port: Number.parseInt(process.env.POSTGRES_PORT || "5432"),
 })
 
-// Função para executar queries SQL
+// queries SQL
 export async function query(text: string, params?: any[]) {
   const start = Date.now()
   try {
@@ -87,7 +87,6 @@ export async function createTables() {
     )
   `)
 
-  // Tabela de Itens de Venda
   await query(`
     CREATE TABLE IF NOT EXISTS itens_venda (
       id SERIAL PRIMARY KEY,
@@ -99,7 +98,6 @@ export async function createTables() {
     )
   `)
 
-  // Adicionar coluna de status na tabela de vendedores se não existir
   try {
     await query(`
       ALTER TABLE vendedores 
@@ -109,24 +107,21 @@ export async function createTables() {
     console.error("Erro ao adicionar coluna de status:", error)
   }
 
-  // Criar índices para melhorar performance
+  // índices 
   try {
-    // Índice para busca de produtos por categoria
+    
     await query(`CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos(categoria)`)
 
-    // Índice para busca de vendas por data
     await query(`CREATE INDEX IF NOT EXISTS idx_vendas_data ON vendas(data_venda)`)
 
-    // Índice para busca de vendas por vendedor
     await query(`CREATE INDEX IF NOT EXISTS idx_vendas_vendedor ON vendas(vendedor_id)`)
 
-    // Índice para busca de vendas por cliente
     await query(`CREATE INDEX IF NOT EXISTS idx_vendas_cliente ON vendas(cliente_id)`)
   } catch (error) {
     console.error("Erro ao criar índices:", error)
   }
 
-  // Criar view para relatório de vendas por vendedor
+  // view para relatório de vendas por vendedor
   try {
     await query(`
       CREATE OR REPLACE VIEW vw_vendas_por_vendedor AS
@@ -152,7 +147,7 @@ export async function createTables() {
     console.error("Erro ao criar view:", error)
   }
 
-  // Criar stored procedure para atualizar estoque
+  //  stored procedure atualizar estoque
   try {
     await query(`
       CREATE OR REPLACE FUNCTION atualizar_estoque_produto()
@@ -166,7 +161,7 @@ export async function createTables() {
       $$ LANGUAGE plpgsql;
     `)
 
-    // Criar trigger para chamar a stored procedure
+    // stored procedure
     await query(`
       DROP TRIGGER IF EXISTS trg_atualizar_estoque ON itens_venda;
       CREATE TRIGGER trg_atualizar_estoque
